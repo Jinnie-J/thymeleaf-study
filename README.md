@@ -56,3 +56,34 @@
   - userMap['userA']['username']: 위와 같음
   - userMap['userA'].getUsername(): Map에서 userA를 찾고 메서드 직접 호출
   
+
+### 기본 객체들
+- 타임리프는 기본 객체들을 제공한다.
+  - ${#request}
+  - ${#response}
+  - ${#session}
+  - ${#servletContext}
+  - ${#locale}
+- 그런데 #request는 HttpServletRequest 객체가 그대로 제공되기 때문에 데이터를 조회하려면 request.getParameter("data") 처럼 불편하게 접근해야 한다.
+- 이런 점을 해결하기 위해 편의 객체도 제공한다.
+  - HTTP 요청 파라미터 접근: param   예) ${param.paramData}
+  - HTTP 세션 접근: session   예) ${session.SessionData}
+  - 스프링 빈 접근: @   예) ${@helloBean.hello('Spring!')}
+  
+
+### URL 링크
+- 타임리프에서 URL을 생성할 때는 @{...}문법을 사용하면 된다.
+- 단순한 url
+  - @{/hello} -> /hello
+- 쿼리 파라미터
+  - @{/hello(param1=${param1}, param2=${param2})} -> /hello?param1=data&param2=data2
+  - ()에 있는 부분은 쿼리 파라미터로 처리된다.
+- 경로변수
+  - @{/hello/{param1}/{param2}(param1=${param1}, param2=${param2})} -> /hello/data1/data2
+  - URL 경로상에 변수가 있으면 () 부분은 경로 변수로 처리된다.
+- 경로 변수 + 쿼리 파라미터
+  - @{/hello/{param1}(param1=${param1}, param2=${param2})} -> /hello/data1?param2=data2
+  - 경로 변수와 쿼리 파라미터를 함께 사용할 수 있다.
+- 상대경로, 절대경로, 프로토콜 기준을 표현할 수 도 있다.
+  - /hello: 절대 경로
+  - hello: 상대 경로
